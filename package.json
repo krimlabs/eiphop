@@ -1,15 +1,16 @@
 {
   "name": "eiphop",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "An opiniated wrapper for electron ipc communications.",
   "repository": "git@github.com:krim-labs/eiphop.git",
-  "author": "Shivek Khurana",
-  "main": "dist/index.js",
+  "author": "Shivek Khurana <khuranashivek@outlook.com>",
+  "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && babel src -d dist"
+    "build": "rm -rf lib && babel src -d lib"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0"
