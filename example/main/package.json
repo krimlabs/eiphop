@@ -1,0 +1,13 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "Shivek Khurana",
+  "license": "MIT",
+  "scripts": {
+    "electron": "electron src"
+  },
+  "devDependencies": {
+    "electron": "^3.0.0"
+  }
+}

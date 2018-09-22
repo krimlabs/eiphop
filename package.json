@@ -2,7 +2,7 @@
   "name": "eiphop",
   "version": "1.0.6",
   "description": "An opiniated wrapper for electron ipc communications.",
-  "repository": "git@github.com:krim-labs/eiphop.git",
+  "repository": "git@github.com:krimlabs/eiphop.git",
   "author": "Shivek Khurana <khuranashivek@outlook.com>",
   "main": "lib/index.js",
   "license": "MIT",
