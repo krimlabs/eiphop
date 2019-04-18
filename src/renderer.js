@@ -33,7 +33,7 @@ export const emit = (action, payload) => {
   // create a new deferred object and save it to pendingRequests
   // this allows us to resolve the promise from outside (giving a cleaner api to domain objects)
   const dfd = new Deferred();
-  pendingRequests = {...pendingRequests, [requestId]: {dfd, action, payload}};
+  pendingRequests = {...pendingRequests, [requestId]: dfd};
 
   // return a promise which will resolve with res
   return dfd.promise;
@@ -45,7 +45,7 @@ export const setupFrontendListener = (electronModule) => {
 
   // expect all responses on asyncResponse channel
   ipcRenderer.on('asyncResponse', (event, requestId, res) => {
-    const {dfd, action} = pendingRequests[requestId];
+    const dfd = pendingRequests[requestId];
     dfd.resolve(res);
 
     // remove the pendingRequest
@@ -57,7 +57,7 @@ export const setupFrontendListener = (electronModule) => {
   });
 
   ipcRenderer.on('errorResponse', (event, requestId, err) => {
-    const {dfd, action} = pendingRequests[requestId];
+    const dfd = pendingRequests[requestId];
     dfd.reject(err);
   });
 }
