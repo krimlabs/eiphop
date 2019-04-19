@@ -5,6 +5,7 @@
   "repository": "git@github.com:krimlabs/eiphop.git",
   "author": "Shivek Khurana <khuranashivek@outlook.com>",
   "main": "lib/index.js",
+  "types": "index.d.ts",
   "license": "MIT",
   "scripts": {
     "build": "rm -rf lib && babel src -d lib"
