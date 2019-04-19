@@ -9,6 +9,15 @@ let ipcRenderer = null;
 
 // singleton requests map 
 let pendingRequests = {};
+export {pendingRequests};
+
+const removePendingRequestId = (requestId) => {
+  pendingRequests = Object.keys(pendingRequests)
+    .filter(k => k !== requestId)
+    .map(k => ({[k]: pendingRequests[k]}))
+    .reduce((accumulator, current) => ({...accumulator, ...current}), {})
+  ;
+};
 
 const randomId = () => `${Date.now().toString(36)}${Math.random().toString(36).substr(2, 5)}`;
 
@@ -17,8 +26,8 @@ const randomId = () => `${Date.now().toString(36)}${Math.random().toString(36).s
 class Deferred {
   constructor() {
     this.promise = new Promise((resolve, reject)=> {
-      this.reject = reject
-      this.resolve = resolve
+      this.reject = reject;
+      this.resolve = resolve;
     })
   }
 }
@@ -46,18 +55,13 @@ export const setupFrontendListener = (electronModule) => {
   // expect all responses on asyncResponse channel
   ipcRenderer.on('asyncResponse', (event, requestId, res) => {
     const {dfd, action} = pendingRequests[requestId];
+    removePendingRequestId(requestId);
     dfd.resolve(res);
-
-    // remove the pendingRequest
-    pendingRequests = Object.keys(pendingRequests)
-      .filter(k => k !== requestId)
-      .map(k => ({[k]: pendingRequests[k]}))
-      .reduce((accumulator, current) => ({...accumulator, ...current}), {})
-    ;
   });
 
   ipcRenderer.on('errorResponse', (event, requestId, err) => {
     const {dfd, action} = pendingRequests[requestId];
+    removePendingRequestId(requestId);
     dfd.reject(err);
   });
 }

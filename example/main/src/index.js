@@ -1,4 +1,27 @@
-const {app, BrowserWindow} = require('electron');
+const electron = require('electron');
+const {app, BrowserWindow} = electron;
+const {setupMainHandler} = require('eiphop');
+
+const hipActions = {  
+  hip: async (req, res) => {  
+    const {payload} = req;  
+    await new Promise(done => setTimeout(done, 800));
+    res.send({msg: 'hop-' + Date()});
+
+    // or res.error({msg: 'failed'})  
+  }  
+};
+
+const pingActions = {  
+  ping: (req, res) => {  
+    const {payload} = req;  
+    res.send({msg: 'pong-' + Date()});  
+    // or res.error({msg: 'failed'})
+  }  
+};
+
+setupMainHandler(electron, {...hipActions, ...pingActions}, true);
+
 let win;
 function createWindow () {
   win = new BrowserWindow({
