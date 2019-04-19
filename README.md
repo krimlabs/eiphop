@@ -145,40 +145,56 @@ emit('hip', {empty: 'payload'})
 
 This module was built for react and redux applications. Here is a simple React example :
 
-```import React from 'react';  
-import {emit} from 'eiphop';
+```import React from 'react';
+import {setupFrontendListener, emit, pendingRequests} from 'eiphop';
+
+const electron = window.electron; // or require('electron')  
+setupFrontendListener(electron);
 
 class App extends React.Component {  
-  constructor() {  
+  constructor(props) {  
+    super(props);
     this.state = {pingRes: '', hipRes: ''}  
   }
 
-render() {  
+  render() {  
     const {pingRes, hipRes} = this.state;  
-    return (<div>  
+    return (<div>
       Ping Res = {JSON.stringify(pingRes)}  
       <br/>  
       Hip Res = {JSON.stringify(hipRes)}  
       <br/>
 
-<button onClick={() => {  
+      <button onClick={() => {  
         emit('ping')  
-          .then(res => this.setState({pingRes: res}))  
+          .then((res) => {
+            this.setState({pingRes: res})
+            console.log(pendingRequests);
+          });
         ;  
       }}>  
         Ping  
       </button>
 
-<button onClick={() => {  
+      <button onClick={() => {  
         emit('hip')  
-          .then(res => this.setState({pingRes: res}))  
+          .then((res) => {
+            this.setState({hipRes: res})
+            console.log(pendingRequests);
+          })  
         ;  
       }}>  
         Hip  
       </button>  
+      <br/>
+
+      (Check console for pending requests)
     </div>);  
   }  
 }
+
+export default App;
+
 ```
 
 You can similarly use this with Redux (and other solutions).
@@ -199,16 +215,10 @@ If you want to know how I structure React apps in general, Fractal is the way to
 
 Thanks for reading :)
 
-PS:
-
-#### I’m looking for new projects to take up. If you have an idea and need a dev team, feel free to [email me.](http://href%3D%22mailto:khuranashivek@outlook.com/?subject=I%20have%20an%20idea%20that%20needs%20a%20dev%20team&body=Hi%20Shivek%2C%20%0A%0AI%27m%20%28%23%20your%20name%2C%20company%2C%20intro.%29%0A%0AThere%20is%20this%20idea%20that%20I%20think%20will%20be%20the%20next%20big%20thing.%20%28%23%20give%20details%20if%20possible%29.%0A%0AI%20need%20someone%20with%20technical%20expertise%20to%20build%20this.%20I%27m%20considering%20options%20and%20you%20are%20one%20of%20them.%20When%20would%20you%20be%20available%20for%20a%2020%20minutes%20call%20%3F%20%0A%0AThanks%20and%20Regards%22)
-
-_I also run a slack community (which has 15 members as of September 21, 2018) where you can help others or receive help regarding frontend, backend and development in general._ [_Let me know_](http://href%3D%22mailto:khuranashivek@outlook.com/?subject=Add%20me%20to%20the%20slack%20community&body=Hi%20Shivek%2C%20%0A%0AI%20read%20your%20post%20on%20medium%20and%20would%20like%20to%20join%20the%20slack%20community.%0A%0A%28%23%20any%20other%20details%20you%27d%20like%20to%20add%29.%0A%0AThanks%22) _if you’d like to be a part of it._
-
 ----------
 MIT License
 
-Copyright (c) [2018] [Shivek Khurana]
+Copyright (c) [2019] [Shivek Khurana]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

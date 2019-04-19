@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "electron": "^3.0.0"
+  },
+  "dependencies": {
+    "eiphop": "../.."
   }
 }
