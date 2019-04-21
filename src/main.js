@@ -18,22 +18,24 @@ export const setupMainHandler = (electronModule, availableActions, enableLogs = 
     enableLogs && log.info('Logs enabled !');
     electronModule.ipcMain.on('asyncRequest', (event, requestId, action, payload) => {
         enableLogs && log.info(`Got new request with id = ${requestId}, action = ${action}`, payload);
-        const requestedAction = availableActions[action];
-        if (!requestedAction) {
-            const error = `Action "${action}" is not available. Did you forget to define it ?`;
-            log.error(error);
-            event.sender.send('errorResponse', {msg: error});
-            return;
-        }
 
         const res = {
-            send: (res) => event.sender.send('asyncResponse', requestId, res),
+            send: (result) => event.sender.send('asyncResponse', requestId, result),
             error: (err) => event.sender.send('errorResponse', requestId, err)
         };
 
+        const requestedAction = availableActions[action];
+
+        if (!requestedAction) {
+            const error = `Action "${action}" is not available. Did you forget to define it ?`;
+            log.error(error);
+            res.error({msg: error});
+            return;
+        }
+
         try {
             const promise = requestedAction({payload}, res);
-            ///isPromise needs to be implemented
+
             if (isPromise(promise)) {
                 promise.catch((e) => {
                     //error in async code
