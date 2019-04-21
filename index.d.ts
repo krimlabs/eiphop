@@ -1,4 +1,4 @@
-import Electron from "electron";
+import "electron";
 
 declare namespace EipHop {
   export interface RequestObject<Payload> {
