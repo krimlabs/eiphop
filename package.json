@@ -18,6 +18,6 @@
     "@babel/preset-env": "^7.4.3"
   },
   "peerDependencies": {
-    "electron": "^2.0.9"
+    "electron": ">=2.0.9"
   }
 }
