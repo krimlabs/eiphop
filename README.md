@@ -84,13 +84,13 @@ emit('hip', {empty: 'payload'})
 1.  The name of the action to call (this was defined is actions map in  `main`)
 2.  The payload to send (this can be an object, string, list etc)
 
-## Usage with React
+### Usage with React
 Check the `example` folder.
 
-## Why another wrapper ?
+### Why another wrapper ? / How to structure real life apps ?
 Check this [blog post](https://medium.com/@shivekkhurana/introducing-eiphop-an-electron-ipc-wrapper-good-fit-for-react-apps-50de6826a47e).
 
-## License
+### License
 MIT License
 
 Copyright (c) [2019] [Shivek Khurana]
