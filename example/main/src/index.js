@@ -5,7 +5,8 @@ const {setupMainHandler} = require('eiphop');
 const hipActions = {  
   hip: async (req, res) => {  
     const {payload} = req;  
-    await new Promise(done => setTimeout(done, 800));
+    await sleep(800);
+    //await new Promise(done => setTimeout(done, 800));
     res.send({msg: 'hop-' + Date()});
 
     // or res.error({msg: 'failed'})  

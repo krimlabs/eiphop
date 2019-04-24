@@ -32,7 +32,8 @@ class App extends React.Component {
         emit('hip')  
           .then((res) => {
             this.setState({hipRes: res})
-          })  
+          })
+          .catch(err => console.log(err))
         ;  
       }}>  
         Hip  
