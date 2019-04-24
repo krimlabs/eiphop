@@ -5,7 +5,7 @@
 
 
 ### Installation
-The current stable version is `1.0.10`.
+The current stable version is `1.0.11`.
 
 ```
 yarn add eiphop
@@ -89,6 +89,13 @@ Check the `example` folder.
 
 ### Why another wrapper ? / How to structure real life apps ?
 Check this [blog post](https://medium.com/@shivekkhurana/introducing-eiphop-an-electron-ipc-wrapper-good-fit-for-react-apps-50de6826a47e).
+
+### Contributors 
+
+Thanks and Gratitude :)
+
+- [ANIS DA SILVA CAMPOS](https://github.com/anis-campos) - Built async error handling PR #8, updated build tools PR #9
+- [Hadeeb Farhan](https://github.com/hadeeb) - Introduced Typescript definitions PR #3
 
 ### License
 MIT License
