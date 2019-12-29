@@ -26,7 +26,8 @@ const pingActions = {
 
 const hipActions = {
   hip: async (req, res) => {  
-     const {payload} = req;  
+     const {payload} = req;
+     res.notify('Sleeping for 800ms, BRB');
      // sleep for 800ms
      await  new  Promise(done  =>  setTimeout(done, 800)); 
      res.send({msg: 'hop'});
@@ -69,20 +70,51 @@ Use the  `emit`  function to call actions defined in the `main` action map.
 ```
 import {emit} from 'eiphop';
 
-emit('ping', {you: 'can', pass: 'data', to: 'main'})  
+emit('ping', {you: 'can', pass: 'data', to: 'main'}, (msg) => {console.log(msg)})  
   .then(res => console.log(res)) // will log {msg: 'pong'}  
   .catch(err => console.log(err))  
 ;
 
-emit('hip', {empty: 'payload'})  
+emit('hip', {empty: 'payload'}, (msg) => {console.log(msg)})  
   .then(res => console.log(res)) // will log {msg: 'hop'}  
   .catch(err => console.log(err))  
 ;
 ```
-`emit`  takes two arguments:
+`emit`  takes up to three arguments:
 
 1.  The name of the action to call (this was defined is actions map in  `main`)
 2.  The payload to send (this can be an object, string, list etc)
+3.  [Optional] A callback function called by the main process to notify the render process with a message.
+
+### Using Notifiers
+For example, sometimes there is a long running operation on the main process and you may want to provide the render process with an update as to it's progress.
+
+You can use notifiers to send a message to the emiter on the render process by using `res.notify` without resolving the promise.
+
+```javascript
+// Render process
+import {emit} from 'eiphop';
+
+emit('download', {/* fileIds, etc */}, (msg) => {console.log(msg)})  
+  .then(res => console.log(res)) // will contain the downloaded file  
+  .catch(err => console.log(err))  
+;
+
+// Main process
+const pingActions = {  
+  ping: (req, res) => {  
+     const {payload} = req;
+
+     payload.filesToDownload.forEach((fileId) => {
+       // Tell the render process what is happening so it can inform the user
+       res.notify(`Downloading file ${fileId}`);
+       downloadFile(payload.fileId);
+     });
+     
+     res.send({msg: 'pong'});  
+  }  
+}
+```
 
 ### Usage with React
 Check the `example` folder.

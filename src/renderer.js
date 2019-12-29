@@ -20,6 +20,8 @@ const removePendingRequestId = (requestId) => {
 
 const randomId = () => `${Date.now().toString(36)}${Math.random().toString(36).substr(2, 5)}`;
 
+const notifierNoop = () => console.info('You forgot to define a notifier function.');
+
 // util method to resolve a promise from outside function scope
 // https://stackoverflow.com/questions/26150232/resolve-javascript-promise-outside-function-scope
 class Deferred {
@@ -41,6 +43,7 @@ export const emit = (action, payload, notifier) => {
     // create a new deferred object and save it to pendingRequests
     // this allows us to resolve the promise from outside (giving a cleaner api to domain objects)
     const dfd = new Deferred();
+    notifier = notifier || notifierNoop;
     pendingRequests[requestId] = {dfd, action, payload, notifier};
 
     // return a promise which will resolve with res
@@ -54,8 +57,8 @@ export const setupFrontendListener = (electronModule) => {
     // expect all responses on asyncResponse channel
 
     ipcRenderer.on('asyncResponseNotify', (event, requestId, res) => {
-        const {notifier, action} = pendingRequests[requestId];
-        if (notifier) notifier(res);
+        const {notifier} = pendingRequests[requestId];
+        notifier(res);
     });
 
     ipcRenderer.on('asyncResponse', (event, requestId, res) => {
