@@ -7,6 +7,7 @@ declare namespace EipHop {
 
   export interface ResponseObject<Response, Error> {
     send: (response?: Response) => void;
+    notify: (response?: Response) => void;
     error: (error?: Error) => void;
   }
 
@@ -32,5 +33,6 @@ export const setupFrontendListener: (electronModule: typeof Electron) => void;
 
 export const emit: <Response = any>(
   action: string,
-  payload?: any
+  payload?: any,
+  notify?: any,
 ) => Promise<Response>;

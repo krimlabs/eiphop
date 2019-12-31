@@ -31,7 +31,7 @@ class Deferred {
     }
 }
 
-export const emit = (action, payload) => {
+export const emit = (action, payload, notifier) => {
     // create a request identifier
     const requestId = randomId();
 
@@ -41,7 +41,10 @@ export const emit = (action, payload) => {
     // create a new deferred object and save it to pendingRequests
     // this allows us to resolve the promise from outside (giving a cleaner api to domain objects)
     const dfd = new Deferred();
-    pendingRequests[requestId] = {dfd, action, payload};
+    notifier = notifier || (() => {
+        console.warn(`You forgot to define a notifier function for the ${action} action.`);
+    });
+    pendingRequests[requestId] = {dfd, action, payload, notifier};
 
     // return a promise which will resolve with res
     return dfd.promise;
@@ -52,6 +55,12 @@ export const setupFrontendListener = (electronModule) => {
     ipcRenderer = electronModule.ipcRenderer;
 
     // expect all responses on asyncResponse channel
+
+    ipcRenderer.on('asyncResponseNotify', (event, requestId, res) => {
+        const {notifier} = pendingRequests[requestId];
+        notifier(res);
+    });
+
     ipcRenderer.on('asyncResponse', (event, requestId, res) => {
         const {dfd} = pendingRequests[requestId];
         removePendingRequestId(requestId);

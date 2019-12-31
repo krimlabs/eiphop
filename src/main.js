@@ -20,6 +20,7 @@ export const setupMainHandler = (electronModule, availableActions, enableLogs = 
 		enableLogs && log.info(`Got new request with id = ${requestId}, action = ${action}`, payload);
 
 		const res = {
+			notify: (message) => event.sender.send('asyncResponseNotify', requestId, message),
 			send: (result) => event.sender.send('asyncResponse', requestId, result),
 			error: (err) => event.sender.send('errorResponse', requestId, err)
 		};
