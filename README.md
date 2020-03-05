@@ -1,7 +1,7 @@
 
 ![](https://github.com/krimlabs/eiphop/raw/master/graphics/eiphop-logo.jpg)
 
-**Eiphop abstracts electron's multi-channel IPC model to an HTTP like interface**. It was built in the process of building [httpslocalhost.com](httpslocalhost.com), a mac app that lets you run TLS/SSL services locally.
+**Eiphop abstracts electron's multi-channel IPC model to an HTTP like interface**. It was built in the process of building [HTTPSLocalhost](https://github.com/krimlabs/httpslocalhost), a mac app that lets you run TLS/SSL services locally.
 
 
 ### Installation
