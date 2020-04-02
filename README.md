@@ -128,6 +128,7 @@ Thanks and Gratitude :)
 
 - [ANIS DA SILVA CAMPOS](https://github.com/anis-campos) - Built async error handling PR #8, updated build tools PR #9
 - [Hadeeb Farhan](https://github.com/hadeeb) - Introduced Typescript definitions PR #3
+- [Cecil Worsley](https://github.com/cworsley4) - Introduced notifiers PR #16
 
 ### License
 MIT License
