@@ -1,7 +1,7 @@
 
 ![](https://github.com/krimlabs/eiphop/raw/master/graphics/eiphop-logo.jpg)
 
-**Eiphop abstracts electron's multi-channel IPC model to an HTTP like interface**. It was built in the process of building [httpslocalhost.com](httpslocalhost.com), a mac app that lets you run TLS/SSL services locally.
+**Eiphop abstracts electron's multi-channel IPC model to an HTTP like interface**. It was built in the process of building [HTTPSLocalhost](https://github.com/krimlabs/httpslocalhost), a mac app that lets you run TLS/SSL services locally.
 
 
 ### Installation
@@ -16,7 +16,7 @@ We tend to think of Eiphop as Redux, except the actions are implemented in the `
 
 #### Define actions
 Imagine you have the following actions in your `main` process: 
-```
+```js
 const pingActions = {  
   ping: (req, res) => {  
      const {payload} = req;  
@@ -38,7 +38,7 @@ const hipActions = {
 ```
 #### Setup main handler
 Actions from different domain objects need to be combined to one global map and passed to eiphop's `setupMainHandler` function. 
-```
+```js
 // somewhere inside main.js
 
 import {setupMainHandler} from 'eiphop';
@@ -54,7 +54,7 @@ setupMainHandler(electron, {...hipActions, ...pingActions}, true);
 
 #### Setup Renderer Listener
 In your renderer’s index.js file, setup the listener as follows:
-```
+```js
 import {setupFrontendListener} from 'eiphop';
 
 // listen to ipc responses  
@@ -67,7 +67,7 @@ Now your channels are ready. All you need to do is trigger actions.
 
 #### Emit actions and expect response
 Use the  `emit`  function to call actions defined in the `main` action map.
-```
+```js
 import {emit} from 'eiphop';
 
 emit('ping', {you: 'can', pass: 'data', to: 'main'}, (msg) => {console.log(msg)})  
@@ -128,11 +128,12 @@ Thanks and Gratitude :)
 
 - [ANIS DA SILVA CAMPOS](https://github.com/anis-campos) - Built async error handling PR #8, updated build tools PR #9
 - [Hadeeb Farhan](https://github.com/hadeeb) - Introduced Typescript definitions PR #3
+- [Cecil Worsley](https://github.com/cworsley4) - Introduced notifiers PR #16
 
 ### License
 MIT License
 
-Copyright (c) [2019] [Shivek Khurana]
+Copyright (c) [2019-Present] [Shivek Khurana]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
