@@ -5,7 +5,7 @@
 
 
 ### Installation
-The current stable version is `1.0.12`.
+The current stable version is `1.0.13`.
 
 ```
 yarn add eiphop
