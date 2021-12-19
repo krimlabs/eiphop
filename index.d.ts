@@ -24,12 +24,17 @@ declare namespace EipHop {
 }
 
 export const setupMainHandler: (
-  electronModule: typeof Electron,
+  electronModule: { ipcMain: typeof Electron.ipcMain },
   actions: EipHop.Actions,
   enableLogs?: boolean
 ) => void;
 
-export const setupFrontendListener: (electronModule: typeof Electron) => void;
+export const setupFrontendListener: (electronModule: { 
+  ipcRenderer: {
+    send: typeof Electron.ipcRenderer.send,
+    on: typeof Electron.ipcRenderer.on 
+  }
+}) => void;
 
 export const emit: <Response = any>(
   action: string,
